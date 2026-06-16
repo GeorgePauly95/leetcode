@@ -1,6 +1,7 @@
 from typing import List
 
 
+# process in reverse
 class Solution:
     def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
         n, result = len(temperatures), []
@@ -25,5 +26,35 @@ class Solution:
                             result.append(next_index - i)
                         elif next_index >= n:
                             result.append(0)
+        result.reverse()
+        return result
+
+
+class monostack:
+    def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
+        n, result = len(temperatures), []
+        stack = []
+        for i in range(n - 1, -1, -1):
+            print("stack:", stack)
+            if i == n - 1:
+                stack.append(temperatures[i])
+                result.append(0)
+            else:
+                if stack[-1] > temperatures[i]:
+                    stack.append(temperatures[i])
+                    result.append(1)
+                else:
+                    # count = 0
+                    while stack[-1] <= temperatures[i]:
+                        stack.pop(-1)
+                        count += 1
+                        if len(stack) == 0:
+                            stack.append(temperatures[i])
+                            result.append(0)
+                            break
+                    else:
+                        count += 1
+                        stack.append(temperatures[i])
+                        result.append(count)
         result.reverse()
         return result
